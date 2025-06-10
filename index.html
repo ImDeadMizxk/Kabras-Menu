@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kabras Menú</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/S8Ic877.png"> <!-- Aquí el favicon -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -81,7 +82,7 @@
   width: 100%;
   height: 160px; /* Ajuste más fino para más espacio de texto */
   object-fit: cover;
-  border-bottom: 2px solid #444;
+  border-bottom: 2px solid #e53935;
   flex-shrink: 0;
 }
 
@@ -139,38 +140,29 @@
   nav button {
     flex: 0 0 auto; /* Evita que se compriman */
   }
-}
-
-
+    }
 
   </style>
 </head>
 <body>
-<header style="padding: 10px; color: #fff; text-align: center;">
+
+<header style="background-color: #333; color: #fff; padding: 10px 20px; font-family: Arial, sans-serif;">
   <img src="https://i.imgur.com/S8Ic877.png" alt="Logo Kabras" style="width: 140px;">
-  <h1 style="margin: 10px 0;">Kabras Menú</h1>
+  <h1>Kabras Menú</h1>
   <p>El sabor de la vida.</p>
   <br>
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 6px;">
-    <a href="https://wa.me/573009539598?text=Hola,%20me%20gustaría%20ordenar%20algo%20para%20comer"
-       target="_blank"
-       style="text-decoration: none; color: #fff; display: inline-flex; align-items: center; max-width: 90vw;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-           alt="WhatsApp"
-           style="width: 20px; margin-right: 5px;">
-      <span>+57 300 953 9598</span>
+  <p>
+    <a href="https://wa.me/573009539598?text=Hola,%20me%20gustaría%20ordenar%20algo%20para%20comer" target="_blank" style="text-decoration: none; color: #fff; display: inline-flex; align-items: center;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; margin-right: 5px;">
+      +57 300 953 9598
     </a>
-  </div>
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-    <a href="https://maps.google.com/?q=KR+19E+%23+19-10+LOCAL+4,+LA+GRANJA,+FRENTE+A+LA+UNAD"
-       target="_blank"
-       style="text-decoration: none; color: #fff; display: inline-flex; align-items: center; max-width: 90vw; text-align: left;">
-      <img src="https://i.imgur.com/N7Irk6y.png"
-           alt="Ubicación"
-           style="width: 20px; margin-right: 5px;">
-      <span style="word-break: break-word;">KR 19E # 19-10 LOCAL 4, LA GRANJA. FRENTE A LA UNAD</span>
+  </p>
+  <p style="margin-top: 6px;">
+    <a href="https://maps.app.goo.gl/ocgJKK3bNYHA1Ukt6" target="_blank" style="text-decoration: none; color: #fff; display: inline-flex; align-items: center;">
+      <img src="https://i.imgur.com/N7Irk6y.png" alt="Ubicación" style="width: 20px; margin-right: 5px;">
+      KR 19E # 19-10 LOCAL 4, LA GRANJA
     </a>
-  </div>
+  </p>
 </header>
 
 
@@ -641,6 +633,23 @@
   </div>
 </section>
 
+<!-- Al final del body, justo antes de </body> -->
+<footer>
+  <p>Made By SilentExe</p>
+</footer>
+
+<style>
+  footer {
+    font-family: 'Rubik', sans-serif;
+    font-style: italic;
+    font-size: 12px; /* Aquí defines el tamaño del texto */
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    background-color: transparent; /* Para que no tenga fondo y se vea limpio */
+    user-select: none;
+  }
+</style>
 
 
   <script>
