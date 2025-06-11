@@ -171,8 +171,7 @@ nav button.active {
   <br>
   <p>
     <a href="https://wa.me/573009539598?text=Hola,%20me%20gustaría%20ordenar%20algo%20para%20comer" target="_blank" style="text-decoration: none; color: #fff; display: inline-flex; align-items: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; margin-right: 5px;">
-      +57 300 953 9598
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; margin-right: 5px;">+57 300 953 9598
     </a>
   </p>
   <p style="margin-top: 6px;">
@@ -181,6 +180,7 @@ nav button.active {
       KR 19E # 19-10 LOCAL 4, LA GRANJA
     </a>
   </p>
+
 </header>
 
 
@@ -651,13 +651,12 @@ nav button.active {
 
 <footer>
   <p>
-    <a href="https://i.pinimg.com/736x/b0/66/b9/b066b95f74257d673c0ac9c776e41578.jpg"_blank">Made By SilentExe</a>
+    <a href="https://imdeadmizxk.github.io/Portafolio/" target="_blank">Made By SilentExe</a>
   </p>
 </footer>
 
 <style>
   footer {
-
     bottom: 0;
     width: 100%;
     text-align: center;
@@ -676,19 +675,32 @@ nav button.active {
   }
 
   footer a:hover {
-    color: #ccc; /* Cambia el color al pasar el mouse */
+    color: #e01717;
   }
 </style>
 
 
-  <script>
+
+<script>
+  // Bloquear clic derecho en toda la página
   document.addEventListener('contextmenu', event => event.preventDefault());
-    function showCategory(id) {
-      document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      [...document.querySelectorAll('nav button')].find(btn => btn.textContent === id).classList.add('active');
-    }
-  </script>
+
+  // Bloquear arrastrar y clic derecho en todas las imágenes
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('img').forEach(img => {
+      img.setAttribute('draggable', 'false');
+      img.addEventListener('contextmenu', e => e.preventDefault());
+      img.addEventListener('dragstart', e => e.preventDefault());
+    });
+  });
+
+  function showCategory(id) {
+    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    [...document.querySelectorAll('nav button')].find(btn => btn.textContent === id).classList.add('active');
+  }
+</script>
+
 </body>
 </html>
