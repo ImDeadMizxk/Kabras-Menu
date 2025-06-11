@@ -21,6 +21,8 @@
       background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
                   url('https://i.imgur.com/CKtDSqC.jpeg');
       background-size: cover;
+  border-bottom: 2px solid #e53935;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       background-position: center;
       padding: 20px;
       text-align: center;
@@ -41,9 +43,12 @@
   white-space: nowrap;
       justify-content: center;
       gap: 10px;
-      background-color: #2a2a2a;
+      background-color: #1e1e1e;
       padding: 10px;
+  margin-top: 15px; /* <-- Esta línea la puedes ajustar */
+
     }
+
     nav button {
       background-color: #e53935;
       border: none;
@@ -148,7 +153,7 @@
 
 <header style="background-color: #333; color: #fff; padding: 10px 20px; font-family: Arial, sans-serif;">
   <img src="https://i.imgur.com/S8Ic877.png" alt="Logo Kabras" style="width: 140px;">
-  <h1>Kabras Menú</h1>
+  <h1>Kabras Gastrobar</h1>
   <p>El sabor de la vida.</p>
   <br>
   <p>
@@ -633,26 +638,40 @@
   </div>
 </section>
 
-<!-- Al final del body, justo antes de </body> -->
 <footer>
-  <p>Made By SilentExe</p>
+  <p>
+    <a href="https://tusitio.com" target="_blank">Made By SilentExe</a>
+  </p>
 </footer>
 
 <style>
   footer {
+
+    bottom: 0;
+    width: 100%;
+    text-align: center;
     font-family: 'Rubik', sans-serif;
     font-style: italic;
-    font-size: 12px; /* Aquí defines el tamaño del texto */
+    font-size: 12px;
     color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    background-color: transparent; /* Para que no tenga fondo y se vea limpio */
-    user-select: none;
+    background-color: transparent;
+    padding: 5px 0;
+  }
+
+  footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  footer a:hover {
+    color: #ccc; /* Cambia el color al pasar el mouse */
   }
 </style>
 
 
   <script>
+  document.addEventListener('contextmenu', event => event.preventDefault());
     function showCategory(id) {
       document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
