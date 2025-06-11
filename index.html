@@ -49,17 +49,29 @@
 
     }
 
-    nav button {
-      background-color: #e53935;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-    }
-    nav button.active {
-      background-color: #c62828;
-    }
+nav button {
+  background: linear-gradient(145deg, #ff4d4d, #d32f2f);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 25px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+nav button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(145deg, #ff6666, #c62828);
+}
+
+nav button.active {
+  background: linear-gradient(145deg, #c62828, #b71c1c);
+  box-shadow: 0 4px 8px rgba(255, 82, 82, 0.4);
+}
+
     .category {
       display: none;
       padding: 20px;
@@ -169,8 +181,6 @@
     </a>
   </p>
 </header>
-
-
 
 
 
