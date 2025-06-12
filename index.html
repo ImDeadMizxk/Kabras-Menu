@@ -692,6 +692,33 @@ nav button.active {
       img.addEventListener('contextmenu', e => e.preventDefault());
       img.addEventListener('dragstart', e => e.preventDefault());
     });
+
+    // Ocultar scrollbars sin desactivar el scroll
+    const style = document.createElement('style');
+    style.textContent = `
+      ::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+      }
+      html, body {
+        -ms-overflow-style: none; /* IE y Edge */
+        scrollbar-width: none;    /* Firefox */
+      }
+      nav {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Asegurar scroll funcional pero sin mostrar scrollbar
+    document.body.style.overflowY = 'auto';
+
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.style.overflowX = 'auto';
+      nav.style.scrollbarWidth = 'none';
+    }
   });
 
   function showCategory(id) {
