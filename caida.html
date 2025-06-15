@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitio en Mantenimiento</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/S8Ic877.png"> <!-- Aquí el favicon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- General Body and Background Styling --- */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d; /* A very dark, uniform base color */
+            color: #e0e0e0; /* Light grey for soft, readable text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            max-width: 650px;
+            padding: 40px;
+            opacity: 0; /* Initially hidden for animation */
+            animation: fadeInContainer 1s ease-out forwards;
+        }
+
+        /* --- Logo Styling and Animation --- */
+        .logo {
+            max-width: 120px; /* Controlled size for the logo */
+            margin-bottom: 40px;
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards 0.5s;
+            opacity: 0; /* Initially hidden */
+        }
+
+        /* --- Heading Styling --- */
+        h1 {
+            font-size: clamp(2rem, 10vw, 3rem); /* Responsive font size */
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+            color: #ffffff; /* Pure white for the main heading */
+            animation: slideUp 0.8s ease-out forwards 0.8s;
+            opacity: 0;
+        }
+
+        /* --- Paragraph Styling --- */
+        p {
+            font-size: clamp(1rem, 4vw, 1.125rem);
+            line-height: 1.6;
+            margin: 0 0 40px 0;
+            color: #a0a0a0; /* Slightly darker grey for secondary text */
+            animation: slideUp 0.8s ease-out forwards 1s;
+            opacity: 0;
+        }
+        
+        /* --- Animated Loader Bar --- */
+        .loader-bar {
+            width: 150px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden; /* Hides the part of the inner bar that is outside */
+            animation: slideUp 0.8s ease-out forwards 1.2s;
+            opacity: 0;
+        }
+
+        .loader-bar::before {
+            content: '';
+            display: block;
+            width: 0%;
+            height: 100%;
+            background-color: #ffffff;
+            border-radius: 2px;
+            animation: loading 2.5s infinite linear;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeInContainer {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes slideUp {
+             from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loading {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Your Logo -->
+        <img src="https://i.imgur.com/S8Ic877.png" alt="Logo del Sitio" class="logo" 
+        onerror="this.style.display='none';">
+
+        <!-- Main Message -->
+        <h1>Nuestro sitio volverá pronto</h1>
+        <p>Estamos realizando mejoras y mantenimiento. Agradecemos tu paciencia.</p>
+
+        <!-- Visual Element -->
+        <div class="loader-bar"></div>
+    </div>
+
+<script>
+  // Bloquear clic derecho en toda la página
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  // Bloquear arrastrar y clic derecho en todas las imágenes
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('img').forEach(img => {
+      img.setAttribute('draggable', 'false');
+      img.addEventListener('contextmenu', e => e.preventDefault());
+      img.addEventListener('dragstart', e => e.preventDefault());
+    });
+
+    // Ocultar scrollbars sin desactivar el scroll
+    const style = document.createElement('style');
+    style.textContent = `
+      ::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+      }
+      html, body {
+        -ms-overflow-style: none; /* IE y Edge */
+        scrollbar-width: none;    /* Firefox */
+      }
+      nav {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Asegurar scroll funcional pero sin mostrar scrollbar
+    document.body.style.overflowY = 'auto';
+
+    const nav = document.querySelector('nav');
+    if (nav) {
+      nav.style.overflowX = 'auto';
+      nav.style.scrollbarWidth = 'none';
+    }
+  });
+</script>
+</body>
+</html>
