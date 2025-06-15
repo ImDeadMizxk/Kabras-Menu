@@ -1,698 +1,299 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kabras Menú</title>
-  <link rel="icon" type="image/png" href="https://i.imgur.com/S8Ic877.png"> <!-- Aquí el favicon -->
+  <link rel="icon" type="image/png" href="https://i.imgur.com/S8Ic877.png">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Rubik -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Rubik', sans-serif;
-    }
+    /* Estilos personalizados y configuración de Tailwind */
     body {
-      margin: 0;
+      font-family: 'Rubik', sans-serif;
       background-color: #1e1e1e;
       color: #fff;
     }
-    header {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                  url('https://i.imgur.com/CKtDSqC.jpeg');
-      background-size: cover;
-  border-bottom: 2px solid #e53935;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      background-position: center;
-      padding: 20px;
-      text-align: center;
+    
+    /* Ocultar barra de scroll de forma nativa */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE y Edge */
+      scrollbar-width: none; /* Firefox */
     }
 
-    header img {
-      width: 100px;
+    /* Clase 'active' para los botones de navegación */
+    nav button.active {
+      background-color: #b71c1c;
+      box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4);
+      transform: translateY(-2px);
     }
-    header h1 {
-      margin: 10px 0 5px;
-    }
-    header p {
-      margin: 0;
-    }
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-  white-space: nowrap;
-      justify-content: center;
-      gap: 10px;
-      background-color: #1e1e1e;
-      padding: 10px;
-  margin-top: 15px; /* <-- Esta línea la puedes ajustar */
-
-    }
-
-nav button {
-  background: linear-gradient(145deg, #ff4d4d, #d32f2f);
-  border: none;
-  padding: 12px 14px;
-  border-radius: 15px;
-  color: white;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-}
-
-nav button:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #ff6666, #E01717);
-}
-
-nav button.active {
-  background: linear-gradient(145deg, #c62828, #b71c1c);
-  box-shadow: 0 4px 8px rgba(255, 82, 82, 0.4);
-}
-
+    
+    /* Transición suave para la visualización de categorías */
     .category {
       display: none;
-      padding: 20px;
-  margin-top: -20px; /* <-- Esta línea la puedes ajustar */
+      animation: fadeIn 0.5s ease-in-out;
     }
+    
     .category.active {
       display: block;
     }
-.category .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.item {
-  position: relative;
-  background-color: #2e2e2e;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 300px;
-}
-
-.item img {
-  width: 100%;
-  height: 160px; /* Ajuste más fino para más espacio de texto */
-  object-fit: cover;
-  border-bottom: 2px solid #e53935;
-  flex-shrink: 0;
-}
-
-.item h3 {
-  margin: 10px 10px 5px 10px;
-  font-size: 16px;
-  text-align: left;
-  flex-shrink: 0;
-}
-
-.item p {
-  margin: 8px 10px 10px;
-  font-size: 14px;
-  color: #ccc;
-  text-align: left;
-  font-style: italic;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  flex-grow: 1;
-}
-
-
-.item .portion-price {
-  font-size: 12px;
-  color: #bbb;
-  margin: 1px 10px 5px;
-  font-style: normal;
-}
-
-
-.item .price {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  background-color: #e53935;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  z-index: 1;
-}
-
-@media (max-width: 768px) {
-  nav {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    scrollbar-width: none; /* Firefox */
-  }
-
-  nav::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
-  }
-
-  nav button {
-    flex: 0 0 auto; /* Evita que se compriman */
-  }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
   </style>
 </head>
-<body>
+<body class="no-scrollbar">
 
-<header style="background-color: #333; color: #fff; padding: 10px 20px; font-family: Arial, sans-serif;">
-  <img src="https://i.imgur.com/S8Ic877.png" alt="Logo Kabras" style="width: 140px;">
-  <h1>Kabras Gastrobar</h1>
-  <p>El sabor de la vida.</p>
-  <br>
-  <p>
-    <a href="https://wa.me/573009539598?text=Hola,%20me%20gustaría%20ordenar%20algo%20para%20comer" target="_blank" style="text-decoration: none; color: #fff; display: inline-flex; align-items: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; margin-right: 5px;">+57 300 953 9598
-    </a>
-  </p>
-  <p style="margin-top: 6px;">
-    <a href="https://maps.app.goo.gl/ocgJKK3bNYHA1Ukt6" target="_blank" style="text-decoration: none; color: #fff; display: inline-flex; align-items: center;">
-      <img src="https://i.imgur.com/N7Irk6y.png" alt="Ubicación" style="width: 20px; margin-right: 5px;">
-      KR 19E # 19-10 LOCAL 4, LA GRANJA
-    </a>
-  </p>
-
-</header>
-
-
-
-  <nav id="menu-nav">
-    <button onclick="showCategory('Entradas')" class="active">Entradas</button>
-    <button onclick="showCategory('Hamburguesas')">Hamburguesas</button>
-    <button onclick="showCategory('Alitas')">Alitas</button>
-    <button onclick="showCategory('A La Parrilla')">A La Parrilla</button>
-    <button onclick="showCategory('Ensaladas')">Ensaladas</button>
-    <button onclick="showCategory('Choripanes')">Choripanes</button>
-    <button onclick="showCategory('Bebidas')">Bebidas</button>
-    <button onclick="showCategory('Cervezas Artesanales')">Cervezas Artesanales</button>
-    <button onclick="showCategory('Cervezas Nacionales')">Cervezas Nacionales</button>
-    <button onclick="showCategory('Cócteles')">Cócteles</button>
+  <!-- ===== HEADER ===== -->
+  <header class="text-center p-6 bg-center bg-cover" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.imgur.com/CKtDSqC.jpeg');">
+    <div class="max-w-4xl mx-auto">
+      <img src="https://i.imgur.com/S8Ic877.png" alt="Logo Kabras" class="w-28 md:w-36 mx-auto mb-4">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Kabras Gastrobar</h1>
+      <p class="text-neutral-300 mt-1">El sabor de la vida.</p>
+      
+      <!-- Información de Contacto -->
+      <div class="flex flex-col md:flex-row md:justify-center items-center gap-4 mt-6 text-sm">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/573009539598?text=Hola,%20me%20gustaría%20ordenar%20algo%20para%20comer" target="_blank" class="flex items-center gap-2 text-white hover:text-red-400 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943s-.182-.15-.38-.25"/>
+          </svg>
+          +57 300 953 9598
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/kabrasgastrobar/" target="_blank" class="flex items-center gap-2 text-white hover:text-red-400 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.703.01 5.556 0 5.829 0 8s.01 2.444.048 3.297c.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.445.445.89.718 1.417.923.509.198 1.09.333 1.942.372.847.038 1.12.048 3.297.048s2.444-.01 3.297-.048c.852-.04 1.433-.174 1.942-.372.526-.205.972-.478 1.417-.923.445-.445.718-.89.923-1.417.198-.509.333-1.09.372-1.942.038-.847.048-1.12.048-3.297s-.01-2.444-.048-3.297c-.04-.852-.174-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.509-.198-1.09-.333-1.942-.372C10.444.01 10.171 0 8 0zm0 1.442c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.599.92c.11.282.24.705.275 1.486.039.843.047 1.096.047 3.232s-.008 2.389-.047 3.232c-.035.78-.166 1.204-.275 1.486a2.5 2.5 0 0 1-.599.92 2.5 2.5 0 0 1-.92.599c-.282.11-.705.24-1.486.275-.843.039-1.096.047-3.232.047s-2.389-.008-3.232-.047c-.78-.035-1.204-.166-1.486-.275a2.5 2.5 0 0 1-.92-.599 2.5 2.5 0 0 1-.599-.92c-.11-.282-.24-.705-.275-1.486-.039-.843-.047-1.096-.047-3.232s.008-2.389.047-3.232c.035-.78.166-1.204.275-1.486a2.5 2.5 0 0 1 .599-.92c.276-.28.546-.453.92-.599.282-.11.705-.24 1.486-.275.843-.039 1.096-.047 3.232-.047zM8 4.022c-2.193 0-3.978 1.785-3.978 3.978s1.785 3.978 3.978 3.978 3.978-1.785 3.978-3.978S10.193 4.022 8 4.022zm0 6.555a2.577 2.577 0 1 1 0-5.154 2.577 2.577 0 0 1 0 5.154zm3.84-6.315a.934.934 0 1 1-1.868 0 .934.934 0 0 1 1.868 0z"/>
+          </svg>
+          @kabrasgastrobar
+        </a>
+        <!-- Ubicación -->
+        <a href="https://maps.app.goo.gl/ocgJKK3bNYHA1Ukt6" target="_blank" class="flex items-center gap-2 text-white hover:text-red-400 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+          </svg>
+          KR 19E # 19-10 LOCAL 4, LA GRANJA
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="menu-nav" class="sticky top-0 z-20 bg-[#1e1e1e] bg-opacity-80 backdrop-blur-sm shadow-md shadow-black/20">
+    <div class="flex p-3 gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
+      <button onclick="showCategory('Entradas', this)" class="active text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Entradas</button>
+      <button onclick="showCategory('Hamburguesas', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Hamburguesas</button>
+      <button onclick="showCategory('Alitas', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Alitas</button>
+      <button onclick="showCategory('A-La-Parrilla', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">A La Parrilla</button>
+      <button onclick="showCategory('Ensaladas', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Ensaladas</button>
+      <button onclick="showCategory('Choripanes', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Choripanes</button>
+      <button onclick="showCategory('Bebidas', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Bebidas</button>
+      <button onclick="showCategory('Cervezas-Artesanales', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Cervezas Artesanales</button>
+      <button onclick="showCategory('Cervezas-Nacionales', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Cervezas Nacionales</button>
+      <button onclick="showCategory('Cócteles', this)" class="text-white bg-red-700 hover:bg-red-600 transition-all duration-300 font-medium py-2 px-4 rounded-full shadow-lg">Cócteles</button>
+    </div>
   </nav>
 
-  <section id="Entradas" class="category active">
- <h2>Entradas</h2>
-  <div class="grid">
-
-    <!-- Tostones con lomito -->
-    <div class="item">
-      <img src="https://i.imgur.com/xigq960.jpeg">
-      <div class="price">13.500</div>
-      <h3>Tostones con lomito</h3>
-      <p>Crujientes patacones acompañados de jugosos lomitos salteados y guacamole casero.</p>
-    </div>
-
-    <!-- Tostones con camarón -->
-    <div class="item">
-      <img src="https://i.imgur.com/92OhWmr.jpeg">
-      <div class="price">16.000</div>
-      <h3>Tostones con camarón</h3>
-      <p>Patacones doraditos servidos con camarones sazonados y nuestro guacamole artesanal.</p>
-    </div>
-
-    <!-- Tostones con queso crema & mermelada de tocineta -->
-    <div class="item">
-      <img src="https://i.imgur.com/dqyS2Cg.jpeg">
-      <div class="price">12.500</div>
-      <h3>Tostones con queso crema & mermelada de tocineta</h3>
-      <p>Una explosión de sabor dulce y salado. Patacones rellenos de queso crema con mermelada artesanal de tocineta.</p>
-    </div>
-
-    <!-- Arepitas crujientes -->
-    <div class="item">
-      <img src="https://i.imgur.com/L4TcWPl.jpeg">
-      <div class="price">9.000</div>
-      <h3>Arepitas crujientes</h3>
-      <p>Mini arepas doradas al punto perfecto, servidas con tocineta bañada en salsa BBQ.</p>
-    </div>
-
-    <!-- Chuleticas de Pollo -->
-    <div class="item">
-      <img src="https://i.imgur.com/hVjrIHN.jpeg">
-      <div class="price">17.900</div>
-      <h3>Chuleticas de Pollo</h3>
-      <p>Trocitos de pollo crocante acompañados de papas a la francesa y tu salsa favorita.</p>
-    </div>
-
-  </div>
-</section>
-
-<section id="Hamburguesas" class="category">
-  <h2>Hamburguesas</h2>
-  <div class="grid">
-    <div class="item">
-      <img src="https://i.imgur.com/oNpQbjc.jpeg">
-      <div class="price">28.000</div>
-      <h3>Delirio Frutal</h3>
-      <p>Dos mini hamburguesas con brioche doradito, (80gr) de carne de res, queso mozzarella, una con mermelada artesanal de frutos rojos y la otra con mermelada artesanal de maracuyá.</p>
-    </div>
-    <div class="item">
-      <img src="https://i.imgur.com/Np6NOL8.jpeg">
-      <div class="price">29.000</div>
-      <h3>La Triple Q</h3>
-      <p>¡Una bomba de queso y sabor! (160gr) de carne de res, pan brioche, aros de cebolla, cebolla crispy, tocineta, triple combinación de quesos (mozzarella, cheddar y campesino) y un toque de miel.</p>
-    </div>
-    <div class="item">
-      <img src="https://i.imgur.com/D2Tp8TU.jpeg">
-      <div class="price">20.900</div>
-      <h3>La Original</h3>
-      <p>Sabor clásico que nunca falla: (160gr) de carne, pan brioche, vegetales frescos, cebolla crispy, queso mozzarella y nuestra exclusiva salsa burger.</p>
-    </div>
-    <div class="item">
-      <img src="https://i.imgur.com/7r0G9WY.jpeg">
-      <div class="price">22.000</div>
-      <h3>Bacon Sweet</h3>
-      <p>El favorito de los amantes de lo dulce y salado: (160gr) de res, pan brioche, vegetales, queso mozzarella, salsa de la casa y nuestra mermelada de tocineta.</p>
-    </div>
-    <div class="item">
-      <img src="https://i.imgur.com/0eboX5T.jpeg">
-      <div class="price">19.200</div>
-      <h3>Chicken Deluxe</h3>
-      <p>Pechuga de pollo crocante (160gr), pan brioche, vegetales frescos, queso mozzarella y salsa estilo Chick-fil-A.</p>
-    </div>
-    <div class="item">
-      <img src="https://i.imgur.com/teHOc5G.jpeg">
-      <div class="price">23.000</div>
-      <h3>La Cremosa</h3>
-      <p>Para los fans del queso: (160gr) de carne de res, pan brioche, vegetales, tocineta, mezcla de mozzarella y doble crema, más nuestra cremosa salsa especial.</p>
-    </div>
-  </div>
-</section>
-
-  </section>
-<section id="Alitas" class="category">
-  <h2>Alitas</h2>
-  <div class="grid">
-
-    <!-- Alitas BBQ -->
-    <div class="item">
-      <img src="https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/recetas-fruco-bbq/Alitas-BBQ-1200x709.jpg" alt="Alitas BBQ">
-      <div class="price">16.000 / 23.500</div>
-      <h3>Alitas BBQ</h3>
-      <p>Jugosas alitas bañadas en salsa BBQ. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p>
-<p class="portion-price"><strong>Pequeñas (6 und):</strong> 16.000</p>
-<p class="portion-price"><strong>Grandes (12 und):</strong> 23.500</p>
-
-    </div>
-
-    <!-- Alitas HOT BBQ -->
-    <div class="item">
-      <img src="https://espanol.kingsford.com/wp-content/uploads/2017/02/KFD_3PepperSmokedHickoryWings35284_WEB.jpg" alt="Alitas HOT BBQ">
-      <div class="price">16.000 / 23.500</div>
-      <h3>Alitas HOT BBQ</h3>
-      <p>Jugosas alitas bañadas en salsa HOT BBQ. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p>
-<p class="portion-price"><strong>Pequeñas (6 und):</strong> 16.000</p>
-<p class="portion-price"><strong>Grandes (12 und):</strong> 23.500</p>
-
-    </div>
-
-    <!-- Alitas MIEL MOSTAZA -->
-    <div class="item">
-      <img src="https://i.ytimg.com/vi/v2LclOmilaY/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gTigTMA8=&rs=AOn4CLC9aiSzRMWCGMaS-jkjX8hAVT5N7w" alt="Alitas Miel Mostaza">
-      <div class="price">16.000 / 23.500</div>
-      <h3>Alitas Miel Mostaza</h3>
-      <p>Jugosas alitas bañadas en salsa de miel mostaza. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p>
-<p class="portion-price"><strong>Pequeñas (6 und):</strong> 16.000</p>
-<p class="portion-price"><strong>Grandes (12 und):</strong> 23.500</p>
-
-    </div>
-
-    <!-- Alitas Mango Picante -->
-    <div class="item">
-      <img src="https://alimentosmelo.com/cdn/shop/articles/ScreenShot_Tool_-20240719111224_1.png?v=1721405525" alt="Alitas Mango Picante">
-      <div class="price">16.000 / 23.500</div>
-      <h3>Alitas Mango Picante</h3>
-      <p>Jugosas alitas bañadas en salsa de mango picante. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p>
-<p class="portion-price"><strong>Pequeñas (6 und):</strong> 16.000</p>
-<p class="portion-price"><strong>Grandes (12 und):</strong> 23.500</p>
-
-    </div>
-
-  </div>
-</section>
-
-<section id="A La Parrilla" class="category">
-  <h2>A La Parrilla</h2>
-  <div class="grid">
-<div class="item">
-  <img src="https://static01.nyt.com/images/2023/08/18/multimedia/as-ribeye-steak-tlmh/as-ribeye-steak-tlmh-jumbo.jpg" alt="Ribeye">
-  <div class="price">31.000</div>
-  <h3>Ribeye</h3>
-  <p>Corte premium al grill (elige tu término), acompañado de papa criolla o francesa, chimichurri y ensalada fresca.</p>
-</div>
-
-<div class="item">
-  <img src="https://ilp-ala.org/wp-content/uploads/2020/08/receta-pechuga-de-pollo.jpg" alt="Filete de Pollo">
-  <div class="price">27.500</div>
-  <h3>Filete de Pollo</h3>
-  <p>300gr de pechuga jugosa, acompañada de papas (criolla o francesa), chimichurri y ensalada fresca.</p>
-</div>
-
-<div class="item">
-  <img src="https://porkcarnes.com/wp-content/uploads/2020/07/costillas3.jpg" alt="Costillas">
-  <div class="price">24.000</div>
-  <h3>Costillas</h3>
-  <p>Costillitas a la brasa bañadas en nuestra deliciosa BBQ artesanal, acompañadas de papas criolla o papas a la francesa.</p>
-</div>
-
-  </section>
-<section id="Ensaladas" class="category">
-  <h2>Ensaladas</h2>
-  <div class="grid">
-<div class="item">
-  <img src="https://elhuertico.es/wp-content/uploads/elementor/thumbs/Receta_El_Huertico_Ensalada_premium_pollo_marinado_pepino_y_fresas-qb92eui4ycibzjm2611yo86hpz4maz2tdvut2v8g40.jpg" alt="Ensalada La Patrona">
-  <div class="price">22.900</div>
-  <h3>Ensalada La Patrona</h3>
-  <p>Una mezcla poderosa: cubos de pollo salteado, fresa fresca, mango maduro, cebolla morada, tomate, lechuga y queso parmesano, con vinagreta especial y pan francés al ajillo.</p>
-</div>
-
-<div class="item">
-  <img src="https://www.tresjotas.com/wp-content/uploads/2019/04/Ensalada-de-camarones.jpg" alt="Ensalada de Mar">
-  <div class="price">26.900</div>
-  <h3>Ensalada de Mar</h3>
-  <p>Una mezcla poderosa: camarones frescos sazonados, fresa fresca, mango maduro, cebolla morada, tomate, lechuga y queso parmesano, con vinagreta especial y pan francés al ajillo.</p>
-</div>
-
-
-  </section>
-<section id="Choripanes" class="category">
-  <h2>Choripanes</h2>
-  <div class="grid">
-<div class="item">
-  <img src="https://i.imgur.com/c8TkVFW.jpeg" alt="Chimi Original">
-  <div class="price">16.000</div>
-  <h3>Chimi Original</h3>
-  <p>El clásico: 125 gr de chorizo de cerdo sobre pan parrillado y acompañado de guacamole.</p>
-</div>
-
-<div class="item">
-  <img src="https://i.imgur.com/RmxBW9a.jpeg" alt="Chimi Pampa">
-  <div class="price">18.000</div>
-  <h3>Chimi Pampa</h3>
-  <p>125 gr de chorizo de ternera, pan parrillado y acompañado de chimichurri.</p>
-</div>
-
-<div class="item">
-  <img src="https://i.imgur.com/R6za2bA.jpeg" alt="Chimi Guacamole">
-  <div class="price">22.000</div>
-  <h3>Chimi Guacamole</h3>
-  <p>125 gr de chorizo de cerdo sobre pan parrillado, acompañado de guacamole, queso y chimichurri.</p>
-</div>
-
-  </section>
-<section id="Bebidas" class="category">
-  <h2>Bebidas</h2>
-  <div class="grid">
-
-    <div class="item">
-      <img src="https://i.imgur.com/96E9efA.jpeg" alt="Limonada Natural">
-      <div class="price">6.500</div>
-      <h3>Limonada Natural</h3>
-      <p>Refrescante bebida de limón exprimido, perfecta para el calor.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/IcQdPrG.jpeg" alt="Limonada Cerezada">
-      <div class="price">7.500</div>
-      <h3>Limonada Cerezada</h3>
-      <p>Deliciosa limonada con un toque dulce de cereza.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/V1kmvHz.jpeg" alt="Limonada Hierbabuena">
-      <div class="price">7.500</div>
-      <h3>Limonada Hierbabuena</h3>
-      <p>Limonada natural con el frescor de la hierbabuena.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/PUdFMOD.jpeg" alt="Soda de Maracuyá">
-      <div class="price">10.000</div>
-      <h3>Soda de Maracuyá</h3>
-      <p>Burbujeante y tropical, ideal para acompañar cualquier plato.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/Z2mw3OB.jpeg" alt="Soda de Frutos Rojos">
-      <div class="price">10.000</div>
-      <h3>Soda de Frutos Rojos</h3>
-      <p>Soda frutal con mezcla de fresas, moras y arándanos.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/2FIEhnb.jpeg" alt="Jugos Naturales en Agua">
-      <div class="price">7.000</div>
-      <h3>Jugos Naturales en Agua</h3>
-      <p>Lulo, maracuyá o mora, preparados con agua y sin conservantes.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/X6VuYHy.jpeg" alt="Jugos Naturales en Leche">
-      <div class="price">8.000</div>
-      <h3>Jugos Naturales en Leche</h3>
-      <p>Lulo, maracuyá, mora o fresa, mezclados con leche para más cremosidad.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/7iMYT35.jpeg" alt="Gaseosas">
-      <div class="price">4.000</div>
-      <h3>Gaseosas</h3>
-      <p>Clásicas bebidas carbonatadas para acompañar tu comida.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/0E1TrXx.jpeg" alt="Botella de Agua">
-      <div class="price">3.000</div>
-      <h3>Botella de Agua</h3>
-      <p>Agua pura y refrescante para mantenerte hidratado.</p>
-    </div>
-
-  </div>
-
-  </section>
- <section id="Cervezas Artesanales" class="category">
-  <h2>Cervezas Artesanales</h2>
-  <div class="grid">
-
-    <div class="item">
-      <img src="https://i.imgur.com/B4xHdnn.jpeg" alt="Salsero">
-      <div class="price">12.000</div>
-      <h3>Salsero</h3>
-      <p>
-        <strong>Estilo:</strong> American Amber Ale<br>
-        <strong>5.0% vol | IBU 36</strong><br>
-        Cerveza ámbar con sabores acaramelados y cítricos, elaborada con naranjas tangelo. Equilibrada en cuerpo, sabor y aroma.
-      </p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/w6pzB2P.jpeg" alt="Bachatero">
-      <div class="price">12.000</div>
-      <h3>Bachatero</h3>
-      <p>
-        <strong>Estilo:</strong> IPA<br>
-        <strong>5.5% vol | IBU 60</strong><br>
-        Cerveza ambar rojiza, lupulada con aromas florales y frutales. Contiene fresa, mora y arándanos para resaltar su carácter.
-      </p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/L4r8TGt.jpeg" alt="Champetero">
-      <div class="price">12.000</div>
-      <h3>Champetero</h3>
-      <p>
-        <strong>Estilo:</strong> Tripel Belga<br>
-        <strong>7.5% vol | IBU 19</strong><br>
-        Dorada y afrutada con piña, mango y maracuyá, jengibre, ají y alta graduación, suave al paladar.
-      </p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/G3rUuNE.jpeg" alt="Tanguero">
-      <div class="price">12.000</div>
-      <h3>Tanguero</h3>
-      <p>
-        <strong>Estilo:</strong> Imperial Stout<br>
-        <strong>8.0% vol | IBU 40</strong><br>
-        Cerveza oscura, compleja e intensa. Con maltas especiales que aportan aromas acaramelados y sabor a chocolate amargo.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-  </section>
-<section id="Cervezas Nacionales" class="category">
-  <h2>Cervezas Nacionales</h2>
-  <div class="grid">
-
-    <div class="item">
-      <img src="https://i.imgur.com/6Xp9rEv.jpeg" alt="Corona">
-      <div class="price">4.000</div>
-      <h3>Corona</h3>
-      <p>Cerveza clara, ligera y refrescante, ideal para acompañar con limón.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/ArJjX8v.jpeg" alt="Aguila">
-      <div class="price">4.000</div>
-      <h3>Aguila</h3>
-      <p>Tradicional cerveza colombiana, suave y refrescante, perfecta para cualquier ocasión.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/YLOUGYp.jpeg" alt="Aguila Light">
-      <div class="price">4.000</div>
-      <h3>Aguila Light</h3>
-      <p>Versión ligera de la clásica Águila, con menos calorías y un sabor igual de refrescante.</p>
-    </div>
-
-  </div>
-</section>
-
-  <section id="Cócteles" class="category">
-    <h2>Cócteles</h2>
-  <div class="grid">
-
-    <div class="item">
-      <img src="https://i.imgur.com/gTclU0J.jpeg" alt="Gin Tonic">
-      <div class="price">18.000</div>
-      <h3>Gin Tonic</h3>
-      <p>Clásico y refrescante. Ginebra, limón, agua tónica y hielo.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/kKCN3x7.jpeg" alt="Cuba Libre">
-      <div class="price">16.000</div>
-      <h3>Cuba Libre</h3>
-      <p>Ron viejo de Caldas, Coca-Cola, limón y hielo. Tradición en cada sorbo.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/z7djUrf.jpeg" alt="Destornillador">
-      <div class="price">16.000</div>
-      <h3>Destornillador</h3>
-      <p>Vodka con jugo de naranja y hielo. Sencillo, pero efectivo.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/pGoDghO.jpeg" alt="Tequila Sunrise">
-      <div class="price">18.000</div>
-      <h3>Tequila Sunrise</h3>
-      <p>Tequila, jugo de naranja, granadina y hielo. Visual y delicioso.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/CyNfSkv.jpeg" alt="Toc Toc">
-      <div class="price">18.000</div>
-      <h3>Toc Toc</h3>
-      <p>Vodka, Sprite, hielo y vaso michelado. Fresco con un toque único.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/lvO0z38.jpeg" alt="Daiquiri de Fresa">
-      <div class="price">20.000</div>
-      <h3>Daiquiri de Fresa</h3>
-      <p>Ron blanco, licor de fruta, mermelada de frutos rojos, fresas, limón y hielo. Dulce y vibrante.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/6RPHb1P.jpeg" alt="Daiquiri de Maracuyá">
-      <div class="price">20.000</div>
-      <h3>Daiquiri de Maracuyá</h3>
-      <p>Ron blanco, licor de fruta, mermelada de maracuyá y hielo. Tropical y exótico.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/ZDAd3cJ.jpeg" alt="Long Island Iced Tea">
-      <div class="price">21.000</div>
-      <h3>Long Island Ice Tea</h3>
-      <p>Vodka, ginebra, tequila, triple sec, Coca-Cola y hielo. Potente y equilibrado.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/JvHULhT.jpeg" alt="Mojito">
-      <div class="price">18.000</div>
-      <h3>Mojito</h3>
-      <p>Ron blanco, limón, menta, azúcar y soda. Refrescante por excelencia.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/qUzAj4v.jpeg" alt="Mojito de Maracuyá">
-      <div class="price">20.000</div>
-      <h3>Mojito de Maracuyá</h3>
-      <p>Ron blanco, limón, menta, azúcar, soda, mermelada de maracuyá y hielo. Refrescante con un toque frutal.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/gY9E9GR.jpeg" alt="Caipi Maracuyá">
-      <div class="price">18.000</div>
-      <h3>Caipi Maracuyá</h3>
-      <p>Vodka, limón, azúcar, mermelada de maracuyá y hielo. Tropical y dulce.</p>
-    </div>
-
-    <div class="item">
-      <img src="https://i.imgur.com/MC9T94j.jpeg" alt="Margarita">
-      <div class="price">19.000</div>
-      <h3>Margarita</h3>
-      <p>Tequila, triple sec, limón y hielo. Un clásico del sabor mexicano.</p>
-    </div>
-
-  </div>
-</section>
-
-<footer>
-  <p>
-    <a href="https://imdeadmizxk.github.io/Portafolio/" target="_blank">Made By SilentExe</a>
-  </p>
-</footer>
-
-<style>
-  footer {
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    font-family: 'Rubik', sans-serif;
-    font-style: italic;
-    font-size: 12px;
-    color: #fff;
-    background-color: transparent;
-    padding: 5px 0;
-  }
-
-  footer a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  footer a:hover {
-    color: #e01717;
-  }
-</style>
-
-
-
-<script>
-  // Bloquear clic derecho en toda la página
-  document.addEventListener('contextmenu', event => event.preventDefault());
-
-  // Bloquear arrastrar y clic derecho en todas las imágenes
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('img').forEach(img => {
-      img.setAttribute('draggable', 'false');
-      img.addEventListener('contextmenu', e => e.preventDefault());
-      img.addEventListener('dragstart', e => e.preventDefault());
-    });
-
+  <!-- ===== MAIN CONTENT (MENU) ===== -->
+  <main class="p-4 md:p-8">
+
+    <!-- Categoría: Entradas -->
+    <section id="Entradas" class="category active">
+      <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Entradas</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300">
+          <div class="relative"><img src="https://i.imgur.com/xigq960.jpeg" alt="Tostones con lomito" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">13.500</div></div>
+          <div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Tostones con lomito</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Crujientes patacones acompañados de jugosos lomitos salteados y guacamole casero.</p></div>
+        </div>
+        <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300">
+          <div class="relative"><img src="https://i.imgur.com/92OhWmr.jpeg" alt="Tostones con camarón" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000</div></div>
+          <div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Tostones con camarón</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Patacones doraditos servidos con camarones sazonados y nuestro guacamole artesanal.</p></div>
+        </div>
+        <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300">
+          <div class="relative"><img src="https://i.imgur.com/dqyS2Cg.jpeg" alt="Tostones con queso crema & mermelada de tocineta" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">12.500</div></div>
+          <div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Tostones con queso crema & mermelada de tocineta</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Una explosión de sabor dulce y salado. Patacones rellenos de queso crema con mermelada artesanal de tocineta.</p></div>
+        </div>
+        <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300">
+          <div class="relative"><img src="https://i.imgur.com/L4TcWPl.jpeg" alt="Arepitas crujientes" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">9.000</div></div>
+          <div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Arepitas crujientes</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Mini arepas doradas al punto perfecto, servidas con tocineta bañada en salsa BBQ.</p></div>
+        </div>
+        <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300">
+          <div class="relative"><img src="https://i.imgur.com/hVjrIHN.jpeg" alt="Chuleticas de Pollo" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">17.900</div></div>
+          <div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Chuleticas de Pollo</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Trocitos de pollo crocante acompañados de papas a la francesa y tu salsa favorita.</p></div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Categoría: Hamburguesas -->
+    <section id="Hamburguesas" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Hamburguesas</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/oNpQbjc.jpeg" alt="Delirio Frutal" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">28.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Delirio Frutal</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Dos mini hamburguesas con brioche doradito, (80gr) de carne de res, queso mozzarella, una con mermelada artesanal de frutos rojos y la otra con mermelada artesanal de maracuyá.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/Np6NOL8.jpeg" alt="La Triple Q" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">29.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">La Triple Q</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">¡Una bomba de queso y sabor! (160gr) de carne de res, pan brioche, aros de cebolla, cebolla crispy, tocineta, triple combinación de quesos (mozzarella, cheddar y campesino) y un toque de miel.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/D2Tp8TU.jpeg" alt="La Original" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">20.900</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">La Original</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Sabor clásico que nunca falla: (160gr) de carne, pan brioche, vegetales frescos, cebolla crispy, queso mozzarella y nuestra exclusiva salsa burger.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/7r0G9WY.jpeg" alt="Bacon Sweet" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">22.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Bacon Sweet</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">El favorito de los amantes de lo dulce y salado: (160gr) de res, pan brioche, vegetales, queso mozzarella, salsa de la casa y nuestra mermelada de tocineta.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/0eboX5T.jpeg" alt="Chicken Deluxe" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">19.200</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Chicken Deluxe</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Pechuga de pollo crocante (160gr), pan brioche, vegetales frescos, queso mozzarella y salsa estilo Chick-fil-A.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/teHOc5G.jpeg" alt="La Cremosa" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">23.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">La Cremosa</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Para los fans del queso: (160gr) de carne de res, pan brioche, vegetales, tocineta, mezcla de mozzarella y doble crema, más nuestra cremosa salsa especial.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Alitas -->
+    <section id="Alitas" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Alitas</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/recetas-fruco-bbq/Alitas-BBQ-1200x709.jpg" alt="Alitas BBQ" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000 / 23.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Alitas BBQ</h3><p class="text-neutral-300 text-sm mt-1">Jugosas alitas bañadas en salsa BBQ. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p><p class="text-xs text-neutral-400 mt-2"><strong>Pequeñas (6 und):</strong> 16.000</p><p class="text-xs text-neutral-400"><strong>Grandes (12 und):</strong> 23.500</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://espanol.kingsford.com/wp-content/uploads/2017/02/KFD_3PepperSmokedHickoryWings35284_WEB.jpg" alt="Alitas HOT BBQ" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000 / 23.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Alitas HOT BBQ</h3><p class="text-neutral-300 text-sm mt-1">Jugosas alitas bañadas en salsa HOT BBQ. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p><p class="text-xs text-neutral-400 mt-2"><strong>Pequeñas (6 und):</strong> 16.000</p><p class="text-xs text-neutral-400"><strong>Grandes (12 und):</strong> 23.500</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.ytimg.com/vi/v2LclOmilaY/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gTigTMA8=&rs=AOn4CLC9aiSzRMWCGMaS-jkjX8hAVT5N7w" alt="Alitas Miel Mostaza" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000 / 23.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Alitas Miel Mostaza</h3><p class="text-neutral-300 text-sm mt-1">Jugosas alitas bañadas en salsa de miel mostaza. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p><p class="text-xs text-neutral-400 mt-2"><strong>Pequeñas (6 und):</strong> 16.000</p><p class="text-xs text-neutral-400"><strong>Grandes (12 und):</strong> 23.500</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://alimentosmelo.com/cdn/shop/articles/ScreenShot_Tool_-20240719111224_1.png?v=1721405525" alt="Alitas Mango Picante" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000 / 23.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Alitas Mango Picante</h3><p class="text-neutral-300 text-sm mt-1">Jugosas alitas bañadas en salsa de mango picante. Acompañadas de papitas criollas o papas a la francesa y salsa a tu elección.</p><p class="text-xs text-neutral-400 mt-2"><strong>Pequeñas (6 und):</strong> 16.000</p><p class="text-xs text-neutral-400"><strong>Grandes (12 und):</strong> 23.500</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: A La Parrilla -->
+    <section id="A-La-Parrilla" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">A La Parrilla</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://static01.nyt.com/images/2023/08/18/multimedia/as-ribeye-steak-tlmh/as-ribeye-steak-tlmh-jumbo.jpg" alt="Ribeye" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">31.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Ribeye</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Corte premium al grill (elige tu término), acompañado de papa criolla o francesa, chimichurri y ensalada fresca.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://ilp-ala.org/wp-content/uploads/2020/08/receta-pechuga-de-pollo.jpg" alt="Filete de Pollo" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">27.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Filete de Pollo</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">300gr de pechuga jugosa, acompañada de papas (criolla o francesa), chimichurri y ensalada fresca.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://porkcarnes.com/wp-content/uploads/2020/07/costillas3.jpg" alt="Costillas" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">24.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Costillas</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Costillitas a la brasa bañadas en nuestra deliciosa BBQ artesanal, acompañadas de papas criolla o papas a la francesa.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Ensaladas -->
+    <section id="Ensaladas" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Ensaladas</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://elhuertico.es/wp-content/uploads/elementor/thumbs/Receta_El_Huertico_Ensalada_premium_pollo_marinado_pepino_y_fresas-qb92eui4ycibzjm2611yo86hpz4maz2tdvut2v8g40.jpg" alt="Ensalada La Patrona" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">22.900</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Ensalada La Patrona</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Una mezcla poderosa: cubos de pollo salteado, fresa fresca, mango maduro, cebolla morada, tomate, lechuga y queso parmesano, con vinagreta especial y pan francés al ajillo.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://www.tresjotas.com/wp-content/uploads/2019/04/Ensalada-de-camarones.jpg" alt="Ensalada de Mar" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">26.900</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Ensalada de Mar</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Una mezcla poderosa: camarones frescos sazonados, fresa fresca, mango maduro, cebolla morada, tomate, lechuga y queso parmesano, con vinagreta especial y pan francés al ajillo.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Choripanes -->
+    <section id="Choripanes" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Choripanes</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/c8TkVFW.jpeg" alt="Chimi Original" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Chimi Original</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">El clásico: 125 gr de chorizo de cerdo sobre pan parrillado y acompañado de guacamole.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/RmxBW9a.jpeg" alt="Chimi Pampa" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Chimi Pampa</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">125 gr de chorizo de ternera, pan parrillado y acompañado de chimichurri.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/R6za2bA.jpeg" alt="Chimi Guacamole" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">22.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Chimi Guacamole</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">125 gr de chorizo de cerdo sobre pan parrillado, acompañado de guacamole, queso y chimichurri.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Bebidas -->
+    <section id="Bebidas" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Bebidas</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/96E9efA.jpeg" alt="Limonada Natural" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">6.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Limonada Natural</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Refrescante bebida de limón exprimido, perfecta para el calor.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/IcQdPrG.jpeg" alt="Limonada Cerezada" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">7.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Limonada Cerezada</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Deliciosa limonada con un toque dulce de cereza.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/V1kmvHz.jpeg" alt="Limonada Hierbabuena" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">7.500</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Limonada Hierbabuena</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Limonada natural con el frescor de la hierbabuena.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/PUdFMOD.jpeg" alt="Soda de Maracuyá" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">10.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Soda de Maracuyá</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Burbujeante y tropical, ideal para acompañar cualquier plato.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/Z2mw3OB.jpeg" alt="Soda de Frutos Rojos" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">10.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Soda de Frutos Rojos</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Soda frutal con mezcla de fresas, moras y arándanos.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/2FIEhnb.jpeg" alt="Jugos Naturales en Agua" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">7.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Jugos Naturales en Agua</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Lulo, maracuyá o mora, preparados con agua y sin conservantes.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/X6VuYHy.jpeg" alt="Jugos Naturales en Leche" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">8.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Jugos Naturales en Leche</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Lulo, maracuyá, mora o fresa, mezclados con leche para más cremosidad.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/7iMYT35.jpeg" alt="Gaseosas" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">4.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Gaseosas</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Clásicas bebidas carbonatadas para acompañar tu comida.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/0E1TrXx.jpeg" alt="Botella de Agua" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">3.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Botella de Agua</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Agua pura y refrescante para mantenerte hidratado.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Cervezas Artesanales -->
+    <section id="Cervezas-Artesanales" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Cervezas Artesanales</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/B4xHdnn.jpeg" alt="Salsero" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">12.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Salsero</h3><p class="text-neutral-300 text-sm mt-1 flex-grow"><strong>Estilo:</strong> American Amber Ale<br><strong>5.0% vol | IBU 36</strong><br>Cerveza ámbar con sabores acaramelados y cítricos, elaborada con naranjas tangelo. Equilibrada en cuerpo, sabor y aroma.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/w6pzB2P.jpeg" alt="Bachatero" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">12.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Bachatero</h3><p class="text-neutral-300 text-sm mt-1 flex-grow"><strong>Estilo:</strong> IPA<br><strong>5.5% vol | IBU 60</strong><br>Cerveza ambar rojiza, lupulada con aromas florales y frutales. Contiene fresa, mora y arándanos para resaltar su carácter.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/L4r8TGt.jpeg" alt="Champetero" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">12.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Champetero</h3><p class="text-neutral-300 text-sm mt-1 flex-grow"><strong>Estilo:</strong> Tripel Belga<br><strong>7.5% vol | IBU 19</strong><br>Dorada y afrutada con piña, mango y maracuyá, jengibre, ají y alta graduación, suave al paladar.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/G3rUuNE.jpeg" alt="Tanguero" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">12.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Tanguero</h3><p class="text-neutral-300 text-sm mt-1 flex-grow"><strong>Estilo:</strong> Imperial Stout<br><strong>8.0% vol | IBU 40</strong><br>Cerveza oscura, compleja e intensa. Con maltas especiales que aportan aromas acaramelados y sabor a chocolate amargo.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Cervezas Nacionales -->
+    <section id="Cervezas-Nacionales" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Cervezas Nacionales</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/6Xp9rEv.jpeg" alt="Corona" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">4.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Corona</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Cerveza clara, ligera y refrescante, ideal para acompañar con limón.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/ArJjX8v.jpeg" alt="Aguila" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">4.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Aguila</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Tradicional cerveza colombiana, suave y refrescante, perfecta para cualquier ocasión.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/YLOUGYp.jpeg" alt="Aguila Light" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">4.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Aguila Light</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Versión ligera de la clásica Águila, con menos calorías y un sabor igual de refrescante.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Categoría: Cócteles -->
+    <section id="Cócteles" class="category">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-red-600 pl-4">Cócteles</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/gTclU0J.jpeg" alt="Gin Tonic" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Gin Tonic</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Clásico y refrescante. Ginebra, limón, agua tónica y hielo.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/kKCN3x7.jpeg" alt="Cuba Libre" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Cuba Libre</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Ron viejo de Caldas, Coca-Cola, limón y hielo. Tradición en cada sorbo.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/z7djUrf.jpeg" alt="Destornillador" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">16.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Destornillador</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Vodka con jugo de naranja y hielo. Sencillo, pero efectivo.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/pGoDghO.jpeg" alt="Tequila Sunrise" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Tequila Sunrise</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Tequila, jugo de naranja, granadina y hielo. Visual y delicioso.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/CyNfSkv.jpeg" alt="Toc Toc" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Toc Toc</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Vodka, Sprite, hielo y vaso michelado. Fresco con un toque único.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/lvO0z38.jpeg" alt="Daiquiri de Fresa" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">20.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Daiquiri de Fresa</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Ron blanco, licor de fruta, mermelada de frutos rojos, fresas, limón y hielo. Dulce y vibrante.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/6RPHb1P.jpeg" alt="Daiquiri de Maracuyá" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">20.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Daiquiri de Maracuyá</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Ron blanco, licor de fruta, mermelada de maracuyá y hielo. Tropical y exótico.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/ZDAd3cJ.jpeg" alt="Long Island Iced Tea" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">21.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Long Island Ice Tea</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Vodka, ginebra, tequila, triple sec, Coca-Cola y hielo. Potente y equilibrado.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/JvHULhT.jpeg" alt="Mojito" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Mojito</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Ron blanco, limón, menta, azúcar y soda. Refrescante por excelencia.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/qUzAj4v.jpeg" alt="Mojito de Maracuyá" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">20.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Mojito de Maracuyá</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Ron blanco, limón, menta, azúcar, soda, mermelada de maracuyá y hielo. Refrescante con un toque frutal.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/gY9E9GR.jpeg" alt="Caipi Maracuyá" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">18.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Caipi Maracuyá</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Vodka, limón, azúcar, mermelada de maracuyá y hielo. Tropical y dulce.</p></div></div>
+            <div class="item flex flex-col bg-[#2e2e2e] rounded-lg overflow-hidden shadow-lg hover:shadow-red-500/20 transition-shadow duration-300"><div class="relative"><img src="https://i.imgur.com/MC9T94j.jpeg" alt="Margarita" class="w-full h-48 object-cover"><div class="price absolute top-2 right-2 bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-full">19.000</div></div><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg">Margarita</h3><p class="text-neutral-300 text-sm mt-1 flex-grow">Tequila, triple sec, limón y hielo. Un clásico del sabor mexicano.</p></div></div>
+        </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="text-center py-6">
+    <p class="text-sm text-neutral-400 italic">
+      <a href="https://imdeadmizxk.github.io/Portafolio/" target="_blank" class="hover:text-red-500 transition-colors">Made By SilentExe</a>
+    </p>
+  </footer>
+
+  <script>
+    // --- SCRIPT DE FUNCIONALIDAD ---
+
+    // Función para mostrar la categoría seleccionada y actualizar el botón activo
+    function showCategory(categoryId, buttonElement) {
+      // Ocultar todas las categorías
+      document.querySelectorAll('.category').forEach(category => {
+        category.classList.remove('active');
+      });
+      
+      // Quitar la clase 'active' de todos los botones
+      document.querySelectorAll('#menu-nav button').forEach(button => {
+        button.classList.remove('active');
+      });
+      
+      // Mostrar la categoría seleccionada (con comprobación de seguridad)
+      const categorySection = document.getElementById(categoryId);
+      if (categorySection) {
+        categorySection.classList.add('active');
+      }
+      
+      // Añadir la clase 'active' al botón presionado
+      if (buttonElement) {
+        buttonElement.classList.add('active');
+      }
+    }
+
+    // --- SCRIPTS DE PROTECCIÓN ---
+
+    // Bloquear el menú contextual (clic derecho) en toda la página
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Evento que se ejecuta cuando el contenido del DOM está cargado
+    document.addEventListener('DOMContentLoaded', () => {
+      // Bloquear el arrastre y el clic derecho en todas las imágenes
+      document.querySelectorAll('img').forEach(img => {
+        img.setAttribute('draggable', 'false');
+        img.addEventListener('contextmenu', e => e.preventDefault());
+        img.addEventListener('dragstart', e => e.preventDefault());
+      });
     // Ocultar scrollbars sin desactivar el scroll
     const style = document.createElement('style');
     style.textContent = `
@@ -720,14 +321,7 @@ nav button.active {
       nav.style.scrollbarWidth = 'none';
     }
   });
-
-  function showCategory(id) {
-    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    [...document.querySelectorAll('nav button')].find(btn => btn.textContent === id).classList.add('active');
-  }
-</script>
+  </script>
 
 </body>
 </html>
